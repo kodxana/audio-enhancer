@@ -5,5 +5,8 @@ flagged
 output
 gradio_cached*
 *egg-info
-build*
+build
 *.wav
+
+output/
+.DS_Store
