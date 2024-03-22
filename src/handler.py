@@ -15,6 +15,7 @@ builtModelSr = build_model(model_name='basic', device='auto')
 # You will want models to be loaded into memory before starting serverless.
 
 def handler(job):
+    print(f"Working")
     job_input = job['input']
     if not job_input.input_file:
         return "No Input File provided."
