@@ -20,6 +20,8 @@ RUN python3.11 -m pip install --upgrade pip && \
     python3.11 -m pip install --upgrade -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt
 
+WORKDIR /src
+
 RUN pip install . 
 
 COPY builder/preload.py /preload.py
