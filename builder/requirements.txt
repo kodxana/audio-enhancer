@@ -19,6 +19,7 @@ progressbar
 phonemizer
 ftfy
 timm
+audiosr
 einops
 torchlibrosa>=0.0.9
 chardet
