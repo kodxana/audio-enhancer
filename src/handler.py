@@ -14,6 +14,9 @@ from rp_schemas import INPUT_SCHEMA
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
 torch.set_float32_matmul_precision("high")
 
+# Assume this is the sample rate your model outputs. Adjust accordingly.
+FIXED_SAMPLE_RATE = 48000
+
 builtModelSr = build_model(model_name='basic', device='auto')
 
 def handler(job):
@@ -27,15 +30,17 @@ def handler(job):
     input_file_url = validated_input['input_file_url']
 
     downloaded_file = rp_download.file(input_file_url)
-    if downloaded_file["success"] is not True:
-        return {"errors": "Failed to download the input file."}
+    if not downloaded_file.get("success", True):
+        error_msg = f"Failed to download the input file. URL: {input_file_url}"
+        return {"errors": error_msg}
 
     input_file_path = downloaded_file["file_path"]
     seed = validated_input['seed'] or random.randint(0, 2**32 - 1)
     ddim_steps = validated_input['ddim_steps']
     guidance_scale = validated_input['guidance_scale']
 
-    waveform, sr = super_resolution(
+    # Adjusted to expect only waveform since sr (sample rate) is known/fixed
+    waveform = super_resolution(
         builtModelSr,
         input_file=input_file_path,
         seed=seed,
@@ -43,10 +48,10 @@ def handler(job):
         ddim_steps=ddim_steps
     )
 
-    # Convert waveform to 16-bit and prepare in-memory WAV file
+    # Use the FIXED_SAMPLE_RATE for the sample rate
     out_wav = (waveform[0] * 32767).astype(np.int16).T
     audio_bytes = io.BytesIO()
-    sf.write(audio_bytes, data=out_wav, samplerate=sr, format='WAV')
+    sf.write(audio_bytes, data=out_wav, samplerate=FIXED_SAMPLE_RATE, format='WAV')
     audio_bytes.seek(0)
 
     # Encode the WAV file to a base64 string
