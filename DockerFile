@@ -31,10 +31,12 @@ RUN python3.11 /preload.py && \
 #       It is reccommended to specify the version of Python when running your code.
 
 # Add src files (Worker Template)
-ADD src .
+ADD src /src
 
-RUN pip install . 
-
+# Change WORKDIR to /src where setup.py resides
 WORKDIR /src
+
+# Now, run pip install in the correct directory
+RUN pip install .
 
 CMD python3.11 -u /handler.py
