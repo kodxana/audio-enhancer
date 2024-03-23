@@ -33,8 +33,6 @@ RUN python3.11 /preload.py && \
 # Add src files (Worker Template)
 ADD src .
 
-WORKDIR /src
-
 RUN pip install . 
 
 CMD python3.11 -u /handler.py
