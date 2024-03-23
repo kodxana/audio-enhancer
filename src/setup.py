@@ -158,5 +158,5 @@ setup(
     cmdclass={
         "upload": UploadCommand,
     },
-    scripts=["bin/audiosr.cmd", "bin/audiosr"],
+    scripts=["src/audiosr.cmd", "src/audiosr"],
 )
