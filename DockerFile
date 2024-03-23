@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip and install Python dependencies
+COPY builder/requirements.txt /requirements.txt
 RUN python3.11 -m pip install --upgrade pip && \
     python3.11 -m pip install --upgrade -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt
