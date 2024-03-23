@@ -3,8 +3,8 @@ import random
 import os
 import runpod
 import base64
-from audiosr import build_model, super_resolution
 import torch
+from audiosr import build_model, super_resolution
 
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
 torch.set_float32_matmul_precision("high")

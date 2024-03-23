@@ -1,26 +1,36 @@
 # Base image
 FROM runpod/base:0.4.0-cuda11.8.0
 
+# Install system dependencies
 RUN apt-get update && apt-get install -y ffmpeg \
     build-essential \
     python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Python dependencies
+# Upgrade pip and install Python dependencies
 COPY builder/requirements.txt /requirements.txt
 RUN python3.11 -m pip install --upgrade pip && \
     python3.11 -m pip install --upgrade -r /requirements.txt --no-cache-dir && \
     rm /requirements.txt
 
-COPY builder/preload.py /preload.py
-RUN python3.11 /preload.py && \
-    rm /preload.py
+# Preload actions
+#COPY builder/preload.py /preload.py
+#RUN python3.11 /preload.py && \
+    #rm /preload.py
 
-# Add src files (Worker Template)
+# Add src files (which includes audiosr and setup.py inside the src directory)
 ADD src /src
 
+# Change working directory to src where setup.py is located
 WORKDIR /src
 
-RUN pip install .
+# Install the audiosr package from the current directory (src)
+# Ensure this command runs with python3.11 explicitly if needed
+RUN python3.11 -m pip install .
 
+# Set the work directory to /src where handler.py is located
+# This step might be redundant if no other commands that change the WORKDIR are introduced afterwards
+WORKDIR /src
+
+# Run handler.py with Python 3.11
 CMD ["python3.11", "-u", "handler.py"]
