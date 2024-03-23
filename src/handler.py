@@ -37,7 +37,7 @@ def handler(job):
 
     waveform, sr = super_resolution(
         builtModelSr,
-        input_file_path,
+        input_file=input_file_path,
         seed=seed,
         guidance_scale=guidance_scale,
         ddim_steps=ddim_steps
