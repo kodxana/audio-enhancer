@@ -28,9 +28,5 @@ WORKDIR /src
 # Ensure this command runs with python3.11 explicitly if needed
 RUN python3.11 -m pip install .
 
-# Set the work directory to /src where handler.py is located
-# This step might be redundant if no other commands that change the WORKDIR are introduced afterwards
-WORKDIR /src
-
 # Run handler.py with Python 3.11
 CMD ["python3.11", "-u", "handler.py"]
