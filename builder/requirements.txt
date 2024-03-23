@@ -10,7 +10,7 @@ git+https://github.com/huggingface/transformers.git
 --extra-index-url https://download.pytorch.org/whl/cu117
 torch >= 2.0
 huggingface_hub
-transformers
+transformers==4.30.2
 soundfile
 runpod==1.6.0
 librosa==0.9.2
@@ -19,7 +19,7 @@ progressbar
 phonemizer
 ftfy
 timm
-audiosr
+audiosr==0.0.3
 einops
 torchlibrosa>=0.0.9
 chardet
