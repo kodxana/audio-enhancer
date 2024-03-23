@@ -35,4 +35,6 @@ ADD src .
 
 RUN pip install . 
 
+WORKDIR /src
+
 CMD python3.11 -u /handler.py
